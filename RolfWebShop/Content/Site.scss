@@ -1,0 +1,141 @@
+﻿@import 'bootstrap-sass/assets/stylesheets/bootstrap';
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background: #f1e6dc;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 380px;
+}
+
+textarea {
+    resize: none;
+}
+
+.text-area {
+    
+    max-height: 250px;
+    height: 200px;
+    min-width: 100%;
+}
+
+/*.pull-right {
+    float: right;
+}*/
+
+h2 {
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+h3 {
+    font-weight:bold;
+}
+
+.my-jumbo {
+    min-height: 280px;
+    background-image: url(/Images/speke_bgr.jpg);
+    margin-top: 10px;
+}
+
+.listing {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: dotted 1px #8b8b8b;
+}
+
+/* Fancy input */
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+	font-size: 1em;
+	font-weight: 700;
+	padding: 10px;
+	color: white;
+	background-color: #6298b2;
+	display: inline-block;
+	cursor: pointer; /* "hand" cursor */
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+	background-color: red;
+}
+
+.inputfile:focus + label {
+	outline: 1px dotted #ca2e2e;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+
+.front-box {
+    height: 460px;
+    
+    border: 1px rgba(0, 0, 0, 0.1) solid;
+    padding: 0px 10px 6px 10px;
+   
+}
+.front-box-inner {
+
+}
+.front-box h2 {
+    /*padding: 10px;*/
+    height: 40px;  
+}
+.front-box input {
+    width: 80px;   
+}
+.front-box button {
+    min-width: 50%;
+     
+}
+
+.product-about {
+    min-height: 280px;
+}
+.image-wrapper {
+    min-height: 230px;
+    width: 100%;
+}
+.price {
+    font-size: 2em;
+}
+
+.navbar {    
+    border: none;
+}
+.navbar-inverse {
+    opacity: 0.95;
+}
+
+
+
+
+/*.nav li:hover {
+    background: #fff;
+    
+}*/

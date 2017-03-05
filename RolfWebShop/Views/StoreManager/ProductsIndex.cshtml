@@ -1,0 +1,35 @@
+﻿@model IEnumerable<RolfWebShop.Models.Product>
+
+@{
+    ViewBag.Title = "ProductsIndex";
+}
+
+<h2>Alle Produkter <a href="/StoreManager/CreateProduct"><span class="glyphicon glyphicon-plus"></span></a></h2>
+
+<p>
+    @Html.ActionLink("Opprett nytt produkt", "CreateProduct")
+</p>
+
+<div class="row">
+    <div class="col-md-2"><h3>@Html.DisplayNameFor(model => model.ProductName)</h3></div>
+    <div class="col-md-2"><h3>@Html.DisplayNameFor(model => model.About)</h3></div>
+    <div class="col-md-1"><h3>@Html.DisplayNameFor(model => model.Price)</h3></div>
+    <div class="col-md-1"><h3>@Html.DisplayNameFor(model => model.Unit)</h3></div>
+    <div class="col-md-2"><h3>Leverandør</h3></div>
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="row">
+        <div class="col-md-2">@Html.ActionLink(item.ProductName, "ProductDetails", new { id = item.ProductId } )</div>
+        <div class="col-md-2">@Html.DisplayFor(modelItem => item.About)</div>
+        <div class="col-md-1">@Html.DisplayFor(modelItem => item.Price)</div>
+        <div class="col-md-1">@Html.DisplayFor(modelItem => item.Unit)</div>
+        <div class="col-md-2">@Html.DisplayFor(modelItem => item.Producer.Name)</div>
+        <div class="col-md-2"><img src="@item.MainImgUrl" alt="@item.ProductName" class="img-responsive" /></div>
+        <div class="col-md-2">@Html.ActionLink("Rediger", "EditProduct", new { id = item.ProductId }) |      
+        @Html.ActionLink("Slett", "Delete", new { id = item.ProductId })</div>
+    </div>
+}
+
+

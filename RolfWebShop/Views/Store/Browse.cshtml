@@ -1,0 +1,14 @@
+﻿@model RolfWebShop.Models.Category
+@{
+    ViewBag.Title = "Browse";
+}
+
+<h2>@ViewBag.Category</h2>
+
+<div class="row">
+    @foreach (var p in Model.Products)
+    {
+        <h3>@p.ProductName @p.PriceToProducts.OrderByDescending(o => o.Price).Select(s => s.Price).First()</h3>
+        <p>@p.Producer.Name</p>
+    }
+</div>

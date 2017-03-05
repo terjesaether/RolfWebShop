@@ -1,0 +1,87 @@
+﻿@model RolfWebShop.ViewModels.MainManagerViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <h2>Produkter</h2>
+
+    <p>
+        @Html.ActionLink("Opprett nytt produkt", "CreateProduct")
+    </p>
+    <div class="row listing">
+        <div class="col-md-3">
+            <h4>Produkt</h4>
+        </div>
+        <div class="col-md-3">
+            <h4>Leverandør</h4>
+        </div>
+        <div class="col-md-1">
+            <h4>Pris</h4>
+        </div>
+        <div class="col-md-1">
+            <h4>Hovedbilde</h4>
+        </div>
+    </div>
+
+
+    @foreach (var item in Model.Products)
+    {
+        <div class="row listing">
+            <div class="col-md-3">@Html.ActionLink(item.ProductName, "ProductDetails", "StoreManager", new { id = item.ProductId }, null) <a href="/StoreManager/EditProduct/@item.ProductId"><span class="glyphicon glyphicon-edit"></span></a></div>
+            <div class="col-md-3">
+                @if (item.Producer != null)
+                {
+                    @Html.ActionLink(item.Producer.Name, "ProducerDetails", "StoreManager", new { id = item.Producer.ProducerId })
+
+                }
+                else
+                {
+                    <span>Ingen leverandør!</span>
+                }
+            </div>
+
+            <div class="col-md-1">@item.Price</div>
+            <div class="col-md-1"><img src="@item.MainImgUrl" alt="@item.ProductName" class="img-responsive" /></div>
+            <div class="col-md-3">@item.About</div>
+            <div class="col-md-1">@Html.ActionLink("Edit", "EditProduct", "StoreManager", new { id = item.ProductId }, null)</div>
+        </div>
+    }
+
+    <h2>Produsenter</h2>
+    <div class="row">
+        @foreach (var item in Model.Producers)
+        {
+
+            <div class="col-md-6">
+                <h3>@Html.ActionLink(item.Name, "ProducerDetails", "StoreManager", new { id = item.ProducerId }, null)</h3>
+                <ul class="list-group">
+                    @if (item.Products.Count > 0)
+                    {
+                        foreach (var product in item.Products)
+                        {
+                            <il class="list-group-item">@Html.ActionLink(product.ProductName, "ProductDetails", "StoreManager", new { id = product.ProductId }, null)</il>
+
+                        }
+                    }
+
+                </ul>
+            </div>
+        }
+    </div>
+
+
+
+    <h2>Kategorier</h2>
+    <div class="row">
+
+        @foreach (var item in Model.Categories)
+        {
+            <div class="row">
+                <div class="col-md-3">@item.Name</div>
+
+            </div>
+        }
+
+    </div>
+</div>

@@ -1,0 +1,76 @@
+﻿@model RolfWebShop.ViewModels.ShoppingCartViewModel
+@{
+    ViewBag.Title = "Handlekurv";
+}
+<div class="row">
+    <div class="col-md-12">
+        <h3>
+            Dette er din handlekurv:
+        </h3>
+        <p class="button">
+            @Html.ActionLink("Ferdig >> ", "AddressAndPayment", "Checkout", null, new { @class = "btn btn-default" })
+        </p>
+        <div id="update-message">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6"><h3>Produktnavn:</h3></div>
+    <div class="col-md-2"><h3>Pris:</h3></div>
+    <div class="col-md-3"><h3>Antall:</h3></div>
+    <div class="col-md-1"><h3>Fjern:</h3></div>
+</div>
+
+    @foreach (var item in Model.CartItems)
+    {
+        <div class="row" id="row-@item.ProductId">
+            <div class="col-md-6">
+                @Html.ActionLink(item.Product.ProductName + " fra " + item.Product.Producer.Name, "Details", "Store", new { id = item.ProductId }, null)
+            </div>
+            <div class="col-md-2">@item.Product.Price / @item.Product.Unit</div>
+            <div class="col-md-3" id="item-count-@item.ProductId">@item.Count</div>
+            <div class="col-md-1"><a href="#" class="RemoveLink btn btn-danger" data-id="@item.ProductId">Fjern fra handlekurven</a></div>
+
+            </div>
+
+    }
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Totalt NOK: </h3>
+            <h2 id="cart-total">@Model.CartTotal</h2>
+        </div>
+    </div>        
+            
+
+
+@section scripts{
+<script type="text/javascript">
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".RemoveLink").click(function () {
+            // Get the id from the link
+            var recordToDelete = $(this).attr("data-id");
+            if (recordToDelete != '') {
+                // Perform the ajax post
+                $.post("/ShoppingCart/RemoveFromCart",
+                    {
+                        "id": recordToDelete
+                    },
+                    function (data) {
+                        // Successful requests get here
+                        // Update the page elements
+                        if (data.ItemCount == 0) {
+                            $('#row-' + data.DeleteId).fadeOut('slow');
+                        } else {
+                            $('#item-count-' + data.DeleteId).html(data.ItemCount);
+                        }
+                        $('#cart-total').html(data.CartTotal);
+                        $('#update-message').html(data.Message).fadeOut(2000);
+                        $('#cart-status').html('Cart (' + data.CartCount + ')');
+                    });
+            }
+        });
+    });
+</script>
+    }

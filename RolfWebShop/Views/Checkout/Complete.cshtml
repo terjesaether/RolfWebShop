@@ -1,0 +1,9 @@
+﻿@model int?
+@{
+    ViewBag.Title = "Checkout Complete";
+}
+<h2>Handel ferdig</h2>
+<p>Takk for din ordre. Du vil snart få en bekreftelse på mail med faktura. Din ordrereferanse er: @Model</p>
+<p>
+    Gå tilbake til @Html.ActionLink("forsiden.","Index", "Home")
+</p>
