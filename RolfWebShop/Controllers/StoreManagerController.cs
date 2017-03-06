@@ -46,6 +46,14 @@ namespace RolfWebShop.Controllers
             return View(product);
         }
 
+        // GET: Details
+        public ActionResult ProducerDetails(int id)
+        {
+            var producer = db.Producers.Find(id);
+            if (producer != null) return View(producer);
+            return RedirectToAction("Main");
+        }
+
         // GET: StoreManager/Create
         public ActionResult CreateProduct()
         {
@@ -92,7 +100,7 @@ namespace RolfWebShop.Controllers
                          }
                     };
 
-            product.Unit = newUnit.Name;
+            if (newUnit != null) product.Unit = newUnit.Name;
 
             string fileName = product.ProductName.Replace(" ", "_") + ".jpg";
 
@@ -309,12 +317,24 @@ namespace RolfWebShop.Controllers
             return View(db.Categories.ToList());
         }
 
+        [HttpGet]
         public ActionResult DeleteCategory(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            foreach (var item in db.Products.ToList())
+            {
+                if (item.Category.CategoryId == id.Value)
+                {
+                    ViewBag.ErrorMessage = "Kategori kan ikke slettes. " + item.ProductName + " er i den kategorien!";
+                    var categories = db.Categories.ToList();
+                    return View("CategoriesIndex", categories);
+                }
+            }
+
             var category = db.Categories.Find(id.Value);
             db.Entry(category).State = EntityState.Deleted;
             db.SaveChanges();
@@ -323,18 +343,31 @@ namespace RolfWebShop.Controllers
         }
 
         // GET: StoreManager/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        [HttpPost]
+        public async Task<ActionResult> DeleteProduct(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Product product = await db.Products.FindAsync(id);
-            if (product == null)
+            try
             {
-                return HttpNotFound();
+                foreach (var item in db.PriceToProducts)
+                {
+                    if (product != null && product.ProductId == item.ProductId)
+                    {
+                        db.Entry(item).State = EntityState.Deleted;
+                    }
+                }
+
+                if (product != null) db.Products.Remove(product);
+                await db.SaveChangesAsync();
+                return Json(new { status = "success", message = "Det gikk fint! Slettet!" });
+                //return RedirectToAction("Main");
             }
-            return View(product);
+            catch (Exception)
+            {
+                return Json(new { status = "error", message = "Fikk ikke slettet produkt!" });
+            }
+
         }
 
         // POST: StoreManager/Delete/5

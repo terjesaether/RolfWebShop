@@ -4,54 +4,25 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h1 class="bottom-air-1 product-details-heading">@Model.ProductName</h1>
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.About)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.About)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MainImgUrl)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MainImgUrl)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Offer)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Offer)
-        </dd>
-
-    </dl>
+<div class="row">
+    <div class="col-md-4">
+        <img class="img-responsive" src="@Model.MainImgUrl" alt="@Model.ProductName" />
+    </div>
+    <div class="col-md-4">
+        @Model.About
+    </div>
+    <div class="col-md-4">
+        <span class="details-price">NOK: @Model.Price</span>
+    </div>
 </div>
+<div class="row">
+    <div class="col-md-4"><h3>Leverandør: </h3><p>@Model.Producer.Name</p></div>
+    <div class="col-md-4"><h3>Kategori: </h3><p>@Html.ActionLink(Model.Category.Name, "Browse", "Store",  new { id = Model.Category.CategoryId}, null )</p></div>
+</div>
+
+
 <p>   
     @Html.ActionLink("Tilbake", "Index")
 </p>

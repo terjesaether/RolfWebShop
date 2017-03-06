@@ -22,16 +22,22 @@ namespace RolfWebShop.Controllers
             //.Where(p => p.Category.CategoryId == id.Value)
             //.ToList();
 
-            var category = _db.Categories.Include("Products").Where(c => c.CategoryId == id.Value).Single();
+            var category = _db.Categories.Include("Products").Single(c => c.CategoryId == id.Value);
 
-            ViewBag.Category = _db.Categories.Find(id.Value).Name;
+            if (id != null)
+            {
+                var find = _db.Categories.Find(id.Value);
+                if (find != null) ViewBag.Category = find.Name;
+            }
             return View(category);
         }
 
         // GET: Details
-        public ActionResult Details()
+        public ActionResult ProducerDetails(int id)
         {
-            return View();
+            var producer = _db.Producers.Find(id);
+            if (producer != null) return View(producer);
+            return RedirectToAction("Index");
         }
 
         // GET: Categories

@@ -4832,6 +4832,9 @@ h3 {
   padding-bottom: 10px;
   border-bottom: dotted 1px #8b8b8b; }
 
+.bottom-air-1 {
+  margin-bottom: 40px; }
+
 /* Fancy input */
 .inputfile {
   width: 0.1px;
@@ -4873,6 +4876,12 @@ h3 {
 .front-box button {
   min-width: 50%; }
 
+#cart-status {
+  transition: background 1s; }
+
+.added-toshop {
+  background: #2eae29; }
+
 .product-about {
   min-height: 280px; }
 
@@ -4888,6 +4897,13 @@ h3 {
 
 .navbar-inverse {
   opacity: 0.95; }
+
+.details-price {
+  font-size: 2em; }
+
+.product-details-heading {
+  font-size: 3em;
+  font-weight: bold; }
 
 /*.nav li:hover {
     background: #fff;

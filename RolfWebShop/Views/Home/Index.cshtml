@@ -34,7 +34,9 @@
 
                     <h2>@Html.ActionLink(item.ProductName, "Details", new {id = item.ProductId})</h2>
                     <div class="col-md-10 image-wrapper">
-                        <img src="@item.MainImgUrl" class="img-responsive" alt=""/>
+                        <a href="/Home/Details/@item.ProductId">
+                            <img src="@item.MainImgUrl" class="img-responsive" alt="" />
+                        </a>
                     </div>
                     <p class="product-about">@item.About</p>
 
@@ -62,13 +64,16 @@
                                 counter = 0;
                             }
                  
-                
-            
         }
     
 </div>
 @section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+
     <script>
+        
+        var cartStatus = $('#cart-status');
+
         $('.addToCartBtn').click(function () {
             var id = $(this).attr("id");
             var number = $('#product_' + id).val();
@@ -78,27 +83,32 @@
 
         function addToCart(number, id) {
             $.post("/ShoppingCart/AddToCart/",
-                // Lager datamodell med produktId og antall:
-                {
-                    Id : id,
-                    Number: number
-                    
-                })
-                   .done(function (data) {
-                       console.log(data);
-                       console.log("Success");                     
-                       $('#message').html(data.Message).fadeOut(2000);
-                       
-                       
-                       window.location.href = "/";
+                    // Lager datamodell med produktId og antall:
+                    {
+                        Id: id,
+                        Number: number
 
-                   })
+                    })
+                .done(function(data) {
+                    console.log(data);
+                    console.log("Success");
+                    //var cartStatus = $('#cart-status');
+                    //$('#message').html(data.Message + data.CartTotal).fadeOut(2000);
+                    cartStatus.addClass('added-toshop');
+                    cartStatus.html('Handlekurv: (' + data.CartCount + ') ' + 'Totalt: ' + data.CartTotal + ' kr');
+                    var cartAimation = TweenMax.to(cartStatus, 1, { height: "80px", top: "20px" });
+                    cartAimation.delay(1);
+                    //window.location.href = "/";
+
+                })
                 .fail(function(jqXHR, textStatus, errorThrown) {
                     alert("Error");
                     //alert(jqXHR.responseText || textStatus);
                     console.error(errorThrown);
-                })  
+                });
         }
+
+        
 
     </script>
     
